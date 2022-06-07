@@ -1,8 +1,8 @@
 void Json(){
-  DynamicJsonDocument doc(1024);
-  doc["V"] = volts1;
-  doc["I"] = volts0;
-  doc["sp"] = sp;
+  DynamicJsonDocument doc(256);
+  doc["rx"] = rx;
+  doc["V"] = cellV;
+  doc["C"] = cellC;
   serializeJson(doc, Serial);
   Serial.println();
 }

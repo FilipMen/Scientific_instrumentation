@@ -8,10 +8,19 @@ String json = "{\"sp\":0}";
 #include <Adafruit_ADS1X15.h>
 
 float sp = 0;
-float voltage = 0;
+float cellV = 0;
+float cellC = 0;
 uint32_t dacV = 0;
-int16_t adc0, adc1, adc2, adc3;
-float volts0, volts1, volts2, volts3;
+int16_t adc;
+float mean = 0;
+
+// FEM variables
+byte state = 0;
+boolean start = false;
+boolean finish = false;
+boolean rx = false;
+int num_i = 1;
+int res = 1;
 
 Adafruit_MCP4725 dac;
 Adafruit_ADS1115 ads;  /* Use this for the 16-bit version */
@@ -48,7 +57,6 @@ void setup(void)
   }
   //------------------------------------------------------------------------------------
 
-
   //-----------------Set timer1 interrupt at 10Hz----------------------------------------
   cli();//stop interrupts
   //set timer1 interrupt at 1Hz
@@ -59,8 +67,8 @@ void setup(void)
   OCR1A = 6249;// = (16*10^6) / (1*1024) - 1 (must be <65536)
   // turn on CTC mode
   TCCR1B |= (1 << WGM12);
-  // Set CS10 CS11 and CS12 bits    
-  //TCCR1B |= (0 << CS12) | (0 << CS11) | (1 << CS10); // No prescaling   
+  // Set CS10 CS11 and CS12 bits
+  //TCCR1B |= (0 << CS12) | (0 << CS11) | (1 << CS10); // No prescaling
   //TCCR1B |= (0 << CS12) | (1 << CS11) | (0 << CS10); // 8 prescaler
   //TCCR1B |= (0 << CS12) | (1 << CS11) | (1 << CS10); // 64 prescaler
   TCCR1B |= (1 << CS12) | (0 << CS11) | (0 << CS10); // 256 prescaler
@@ -74,18 +82,16 @@ void setup(void)
 void loop(void)
 {
   // print the string when a newline arrives:
-//  if (stringComplete) {
-//    //SetP = inputString.toFloat();
-//    voltage = inputString.toFloat();
-//    dacV = voltage * 4091 / 5.02;
-//    dac.setVoltage(dacV, false);
-//  }
+  //  if (stringComplete) {
+  //    //SetP = inputString.toFloat();
+  //    voltage = inputString.toFloat();
+  //    dacV = voltage * 4091 / 5.02;
+  //    dac.setVoltage(dacV, false);
+  //  }
 
-  
-  adc0 = ads.readADC_SingleEnded(0);
-  adc1 = ads.readADC_SingleEnded(1);
-
-  volts0 = ads.computeVolts(adc0);
-  volts1 = ads.computeVolts(adc1);
-
+  //  adc0 = ads.readADC_SingleEnded(0);
+  //  adc1 = ads.readADC_SingleEnded(1);
+  //  volts0 = ads.computeVolts(adc0);
+  //  volts1 = ads.computeVolts(adc1);
+  FEM();
 }
