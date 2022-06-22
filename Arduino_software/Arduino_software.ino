@@ -10,7 +10,7 @@ String json = "{\"sp\":0}";
 float sp = 0;
 float cellV = 0;
 float cellC = 0;
-uint32_t dacV = 0;
+uint32_t dacV = 1000;
 int16_t adc;
 float mean = 0;
 
@@ -93,5 +93,19 @@ void loop(void)
   //  adc1 = ads.readADC_SingleEnded(1);
   //  volts0 = ads.computeVolts(adc0);
   //  volts1 = ads.computeVolts(adc1);
-  FEM();
+  FEM1();
+  //  if (sp > 0.12) {
+  //    float error = sp - cellC;
+  //    float cError = 0;
+  //    cellC = getCurrent();
+  //    cError += error;
+  //    Serial.print(sp);
+  //    dacV += 10* error + 10 * cError;
+  //    Serial.print(" ");
+  //    Serial.print(dacV);
+  //    Serial.print(" ");
+  //    Serial.println(cellC);
+  //    dac.setVoltage(dacV, false);
+  //  }
+
 }

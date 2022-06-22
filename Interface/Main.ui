@@ -175,7 +175,7 @@
        </sizepolicy>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 700 25pt &quot;Magneto&quot;;</string>
+       <string notr="true">font: 36pt &quot;Bahnschrift&quot;;</string>
       </property>
       <property name="text">
        <string>Scientific intrumentation project</string>

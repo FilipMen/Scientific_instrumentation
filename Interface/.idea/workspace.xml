@@ -3,10 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="cdc350ec-6b3c-4825-b3c6-62fc7c248930" name="Changes" comment="02/06/2022">
       <change beforePath="$PROJECT_DIR$/../Arduino_software/Arduino_software.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../Arduino_software/Arduino_software.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Arduino_software/Json.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../Arduino_software/Json.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Arduino_software/Read_serial.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../Arduino_software/Read_serial.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Arduino_software/Timer1.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../Arduino_software/Timer1.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Arduino_software/FEM.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../Arduino_software/FEM.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Interface.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Interface.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/Main.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__format" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/__format.py" beforeDir="false" afterPath="$PROJECT_DIR$/__format.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -45,6 +48,8 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../../Energetica 2030/Barco Fluvial/Modelo dinamico/Python" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager" selected="Python.main">
     <configuration name="__format" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -133,6 +138,11 @@
       <workItem from="1654288603884" duration="9282000" />
       <workItem from="1654462076382" duration="11455000" />
       <workItem from="1654527682985" duration="7835000" />
+      <workItem from="1654698832210" duration="7577000" />
+      <workItem from="1655330610081" duration="727000" />
+      <workItem from="1655396080902" duration="753000" />
+      <workItem from="1655481176584" duration="1276000" />
+      <workItem from="1655821261477" duration="1581000" />
     </task>
     <task id="LOCAL-00001" summary="02/06/2022">
       <created>1654227373096</created>
@@ -166,7 +176,7 @@
     <SUITE FILE_PATH="coverage/__format_py$main.coverage" NAME="main Coverage Results" MODIFIED="1654481483772" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/main_py$__format.coverage" NAME="__format Coverage Results" MODIFIED="1654295527540" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/main_py$scipy_rk45_threads.coverage" NAME="scipy_rk45_threads Coverage Results" MODIFIED="1654289169522" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../../../../../Energetica 2030/Barco Fluvial/Modelo dinamico/Python" />
-    <SUITE FILE_PATH="coverage/main_py$main.coverage" NAME="main Coverage Results" MODIFIED="1654552945720" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/main_py$main.coverage" NAME="main Coverage Results" MODIFIED="1655821448918" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Interface$__format.coverage" NAME="__format Coverage Results" MODIFIED="1654225171566" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Interface$main.coverage" NAME="main Coverage Results" MODIFIED="1654227338566" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>

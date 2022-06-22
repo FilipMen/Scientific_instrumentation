@@ -38,14 +38,16 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QSize, QRectF, QPointF
 from PyQt5.QtGui import QColor, QBrush, QPaintEvent, QPainter, QPen
 from PyQt5.QtWidgets import (QToolBar, QToolButton, QCheckBox, QComboBox,
-                             QPushButton)
+                             QPushButton, QFileDialog)
 import pyqtgraph as pg
 import serial
 import serial.tools.list_ports
 import time
 import json
+import itertools
+import csv
 from guiLoop import guiLoop  # https://gist.github.com/niccokunzmann/8673951
-
+from os.path import exists
 
 # Third-party imports -----------------------------------------------
 
@@ -158,7 +160,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
         self.label_5.setSizePolicy(sizePolicy)
-        self.label_5.setStyleSheet("font: 700 25pt \"Magneto\";")
+        self.label_5.setStyleSheet("font: 36pt \"Bahnschrift\";")
         self.label_5.setTextFormat(QtCore.Qt.PlainText)
         self.label_5.setScaledContents(True)
         self.label_5.setAlignment(QtCore.Qt.AlignCenter)
@@ -270,6 +272,13 @@ class Solar_radiation(QtWidgets.QMainWindow):
         self.info = {"rx": False, "i": 1, "r": 10}
         self.listC = []
         self.listV = []
+        self.folder = ''
+        self.MainWindow.browse.clicked.connect(self.browse_files)
+
+    def browse_files(self):
+        f_name = QFileDialog.getExistingDirectory(self, "Open Directory", './')
+        self.folder = f_name+"/"
+        print(self.folder)
 
     def UpdateSerial(self, COMport, BaudRate):
         try:
@@ -375,9 +384,9 @@ class Start(QtWidgets.QPushButton):
 
 # FUNCTION CATEGORY 1 -----------------------------------------
 def GetComPorts():
-    comlist = serial.tools.list_ports.comports()
+    com_list = serial.tools.list_ports.comports()
     connected = []
-    for element in comlist:
+    for element in com_list:
         connected.append(element.device)
     return connected
 
@@ -385,44 +394,61 @@ def GetComPorts():
 @guiLoop
 def Main_loop():
     state = 0
+    rx = ""
     while True:
         if ui.serialPort.isOpen():
             if ui.serialPort.in_waiting:
                 rx = ui.serialPort.readline().decode("utf-8").rstrip('\r\n')
                 print(rx)
-                if rx == "Stop":
-                    state = 0
-                if state == 0:
-                    if rx == "Receive":
-                        # Send message with the information of the curve
-                        ui.info["rx"] = True
-                        ui.info["i"] = ui.MainWindow.iterations.value()
-                        ui.info["r"] = ui.MainWindow.resolution.value()
-                        ui.serialPort.write((json.dumps(ui.info)+'\n').encode())
-                        # Reset the I-V curve
-                        ui.MainWindow.plt.clear()
-                        ui.listC = []
-                        ui.listV = []
-                        state = 1
-                elif state == 1:
-                    try:
-                        data = json.loads(rx)
-                        v = data["V"]
-                        c = data["C"]
-                        ui.listV.append(v)
-                        ui.listC.append(c)
-                        ui.MainWindow.voltage.setText(str(v))
-                        ui.MainWindow.current.setText(str(c))
-                        ui.MainWindow.plt.clear()
-                        ui.MainWindow.plt.plot(ui.listV, ui.listC, pen=pg.mkPen('b', width=2), name=
-                        ui.MainWindow.irradiance)
-                        ui.MainWindow.plt.autoRange()
-                        print(ui.listV)
-                        print(ui.listC)
-                        if not data["rx"]:
-                            state = 0
-                    except Exception as e:
-                        pass
+            if rx == "Stop":
+                state = 0
+            if state == 0:
+                if rx == "Receive":
+                    # Send message with the information of the curve
+                    ui.info["rx"] = True
+                    ui.info["i"] = ui.MainWindow.iterations.value()
+                    ui.info["r"] = ui.MainWindow.resolution.value()
+                    ui.serialPort.write((json.dumps(ui.info)+'\n').encode())
+                    # Reset the I-V curve
+                    ui.MainWindow.plt.clear()
+                    ui.listC = []
+                    ui.listV = []
+                    state = 1
+            elif state == 1:
+                try:
+                    data = json.loads(rx)
+                    v = data["V"]
+                    c = data["C"]
+                    ui.listV.append(v)
+                    ui.listC.append(c)
+                    ui.MainWindow.voltage.setText(str(v))
+                    ui.MainWindow.current.setText(str(c))
+                    ui.MainWindow.plt.clear()
+                    ui.MainWindow.plt.plot(ui.listV, ui.listC, pen=pg.mkPen('b', width=2), name=
+                    ui.MainWindow.irradiance)
+                    ui.MainWindow.plt.autoRange()
+                    if not data["rx"]:
+                        state = 2
+                except Exception as e:
+                    pass
+            elif state == 2:
+                file_name = ui.MainWindow.file_name.text()
+                file_name = "measures/IV_measure" if file_name == "" else file_name
+                irradiance = ui.MainWindow.irradiance.text()
+                file_name = file_name + ("" if irradiance == "" else ("_" + irradiance))
+                path = ui.folder + file_name + ".csv"
+                cont = 1
+                while exists(path):
+                    path = ui.folder + file_name + "({})".format(cont) + ".csv"
+                    cont += 1
+                with open(path, 'w', newline='') as f:
+                    # create the csv writer
+                    writer = csv.writer(f)
+                    # write a row to the csv file
+                    for (i, j) in zip(ui.listV, ui.listC):
+                        writer.writerow([i, j])
+                ui.startButton.animateClick(1)
+                state = 0
         yield 0.1
 
 

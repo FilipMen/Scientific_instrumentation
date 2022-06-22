@@ -99,7 +99,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
         self.label_5.setSizePolicy(sizePolicy)
-        self.label_5.setStyleSheet("font: 700 25pt \"Magneto\";")
+        self.label_5.setStyleSheet("font: 36pt \"Bahnschrift\";")
         self.label_5.setTextFormat(QtCore.Qt.PlainText)
         self.label_5.setScaledContents(True)
         self.label_5.setAlignment(QtCore.Qt.AlignCenter)
