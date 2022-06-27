@@ -48,6 +48,7 @@ import itertools
 import csv
 from guiLoop import guiLoop  # https://gist.github.com/niccokunzmann/8673951
 from os.path import exists
+import numpy as np
 
 # Third-party imports -----------------------------------------------
 
@@ -101,6 +102,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.irradiance.sizePolicy().hasHeightForWidth())
         self.irradiance.setSizePolicy(sizePolicy)
         self.irradiance.setMaximumSize(QtCore.QSize(60, 16777215))
+        self.irradiance.setReadOnly(True)
         self.irradiance.setObjectName("irradiance")
         self.gridLayout.addWidget(self.irradiance, 3, 2, 1, 1)
         self.file_name = QtWidgets.QLineEdit(self.centralwidget)
@@ -182,6 +184,7 @@ class Ui_MainWindow(object):
         self.resolution = QtWidgets.QSpinBox(self.centralwidget)
         self.resolution.setMinimum(10)
         self.resolution.setMaximum(25)
+        self.resolution.setValue(25)
         self.resolution.setObjectName("resolution")
         self.gridLayout.addWidget(self.resolution, 2, 2, 1, 1)
         spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -420,7 +423,7 @@ def Main_loop():
                     v = data["V"]
                     c = data["C"]
                     ui.listV.append(v)
-                    ui.listC.append(c)
+                    ui.listC.append(c/23.6)
                     ui.MainWindow.voltage.setText(str(v))
                     ui.MainWindow.current.setText(str(c))
                     ui.MainWindow.plt.clear()
@@ -434,7 +437,14 @@ def Main_loop():
             elif state == 2:
                 file_name = ui.MainWindow.file_name.text()
                 file_name = "measures/IV_measure" if file_name == "" else file_name
-                irradiance = ui.MainWindow.irradiance.text()
+                ui.listV.sort()
+                ui.listC.sort(reverse=True)
+                area = np.trapz(ui.listC, ui.listV)
+                print(area)
+                pI = np.array([2.222428516310445e+03, 248.071453214586])
+                ui.MainWindow.irradiance.setText(str(np.round(np.polyval(pI, area),2)))
+                #irradiance = ui.MainWindow.irradiance.text()
+                irradiance = ""
                 file_name = file_name + ("" if irradiance == "" else ("_" + irradiance))
                 path = ui.folder + file_name + ".csv"
                 cont = 1

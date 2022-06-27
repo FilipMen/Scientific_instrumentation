@@ -1,3 +1,7 @@
+clear all
+close all
+clc
+
 MyFolderInfo = dir;
 cont = 1;
 for i = 1:length(MyFolderInfo)
@@ -23,12 +27,20 @@ for k=1:numel(fn)
     Y = sort(Y,'descend');
     P = X.*Y;
     figure(2)
-    plot(X,Y)
+    plot(X,Y*1000, 'LineWidth', 1)
     hold on
+    grid on
+    xlabel('Voltage [V]')
+    ylabel('Current [mA]')
+    title('Measurements VI curves')
     Area(k) = trapz(X,Y);
     figure(3)
-    plot(X,P)
+    plot(X,P, 'LineWidth', 1)
+    grid on
     hold on
+    xlabel('Voltage [V]')
+    ylabel('Power [W]')
+    title('Measurements power curves')
 
 
 end
@@ -37,12 +49,16 @@ hold off
 figure(3)
 hold off
 figure(4)
-scatter(number, Area)
-hold on 
-pI = polyfit(number, Area, 1);
-Irradiance = 400:100:900;
-Measure = polyval(pI, Irradiance);
-plot(Irradiance, Measure)
+scatter(Area, number, 300, 'k','.')
+hold on
+grid on
+ylabel('Solar irradiance [W/m^2]')
+xlabel('Total power [W]')
+title('Calibration curve')
+pI = polyfit(Area, number, 1);
+Measure = 0.08:0.01:0.28;
+Irradiance = polyval(pI, Measure);
+plot(Measure, Irradiance, 'LineWidth', 1)
 
 irrU = unique(number);
 for i = 1:length(irrU)
@@ -57,8 +73,8 @@ for i = 1:length(irrU)
     end
 end
 
-yfit = polyval(pI,unique(number));
-y = areaU;
+yfit = polyval(pI,areaU);
+y = irrU;
 yresid = y - yfit;
 SSresid = sum(yresid.^2);
 SStotal = (length(y)-1) * var(y);
